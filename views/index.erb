@@ -1,0 +1,193 @@
+<body class="text-center">
+	<div >
+	<!--class="scrollspy-example"-->
+	<!--			data-bs-spy="scroll"-->
+	<!--		  data-bs-target="#navbar"-->
+	<!--		  data-bs-offset="0"-->
+	<!--		  tabindex="0">-->
+		<div class="bingo cover-container d-flex vw-100 vh-100 mx-auto flex-column bg-white text-dark" id="bingoDiv">
+			<header class="p-3">
+				<h1 class="float-md-start mb-3" id="resultText">Find!</h1>
+			</header>
+			<div class="p-3" id="bingoCard">
+				<div class="row ">
+					<div class="col g-0 m-1">
+						<div class="ratio ratio-1x1 border" id="box0">
+						</div>
+					</div>
+					<div class="col g-0 m-1">
+						<div class="ratio ratio-1x1 border" id="box1">
+						</div>
+					</div>
+					<div class="col g-0 m-1">
+						<div class="ratio ratio-1x1 border" id="box2">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col g-0 m-1">
+						<div class="ratio ratio-1x1 border" id="box3">
+						</div>
+					</div>
+					<div class="col g-0 m-1">
+						<div class="ratio ratio-1x1 border" id="box4">
+						</div>
+					</div>
+					<div class="col g-0 m-1">
+						<div class="ratio ratio-1x1 border" id="box5">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col g-0 m-1">
+						<div class="ratio ratio-1x1 border" id="box6">
+						</div>
+					</div>
+					<div class="col g-0 m-1">
+						<div class="ratio ratio-1x1 border" id="box7">
+						</div>
+					</div>
+					<div class="col g-0 m-1">
+						<div class="ratio ratio-1x1 border" id="box8">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="p-3 my-auto">
+				<h1 class="invisible" id="bingo">Bingo!</h1>
+				<div class="row justify-content-end">
+					<div class="col-4">
+						<a class="nav-link btn btn-outline-dark btn-lg" role="button" href="#cameraPage">
+							<span class="material-symbols-outlined align-middle">image_search</span>
+						</a>
+					</div>
+					<div class="col-4">
+						<button type="button" class="btn btn-outline-dark btn-lg" id="shareButton">
+							<span class="material-symbols-outlined align-middle">share</span>
+						</button>
+					</div>
+			  </div>
+			  <h1 class="invisible" id="scoreText">Score: 0</h1>
+			</div>
+		</div>
+		
+		<div class="cameraPage cover-container d-flex vw-100 vh-100 mx-auto flex-column bg-dark text-white" id="cameraPage">
+			<header class="p-3">
+				<h1 class="float-md-start mb-3">Scan!</h1>
+			</header>
+			<div class="ratio ratio-1x1 w-100" id="cameraDiv"></div>
+			<div class="p-3 my-auto">
+				<h3 id="labelText"></h3>
+				<div class="row justify-content-end">
+			    <div class="col-4">
+			      <button type="button" class="btn btn-outline-light btn-lg" id="shutterButton" 
+			      data-bs-toggle="modal" data-bs-target="#classifyResultModal" disabled>
+							<span class="material-symbols-outlined align-middle">circle</span>
+						</button>
+			    </div>
+			    <div class="col-4">
+						<button type="button" class="btn btn-outline-light btn-lg" id="flipButton" disabled>
+							<span class="material-symbols-outlined align-middle">cameraswitch</span>
+						</button>
+			    </div>
+			  </div>
+				<div class="row justify-content-center align-items-center" style="height: 60px;">
+					<div class="col-4 form-check form-switch" style="padding: 0;">
+					  <input class="form-check-input" type="checkbox" id="modeButton" style="margin-left: 0; float: unset;">
+					  <!--<label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--Modal-->
+	<div class="modal fade" id="classifyResultModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">発見！</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	      	<h4 id="foundLabel"></h4>
+	        <!--<h6 id="confidenceText">00.00</h6>-->
+	        <div class="progress">
+					  <div class="progress-bar" id="confidenceBar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+					</div>
+	        <!--<h6 id="includeLabelText">not in card</h6>-->
+	        <!--<div id="modalImage"></div>-->
+	        <!--<image id="modalImage"></image>-->
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" id="okButton">OK</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!--Bottom Nav Menu-->
+	<!--<nav class="nav nav-pills nav-justified navbar fixed-bottom navbar-light bg-light text-dark" id="pills-tab" role="tablist">-->
+	<!--	<a class="nav-link" href="#bingoDiv">-->
+	<!--		<span class="material-symbols-outlined align-middle">task_alt</span>-->
+	<!--	</a>-->
+	<!--	<a class="nav-link" href="#cameraPage">-->
+	<!--		<span class="material-symbols-outlined align-middle">image_search</span>-->
+	<!--	</a>-->
+	<!--</nav>	-->
+
+	<script src="/assets/js/sketch.js"></script>
+	<script>
+		// カメラ関連ボタン
+		$("#shutterButton").on("click", function() {
+			pictureWindow.getPicture();
+		});
+		// モーダル
+		// Bootstrapだからかイベントリスナー紐付けが標準の記法
+		let myModal = document.getElementById('classifyResultModal');
+		myModal.addEventListener('shown.bs.modal',  function() {
+			console.log("modal shown");
+		});
+		myModal.addEventListener('hidden.bs.modal',  function() {
+			console.log("modal hidden");
+			pictureWindow.startScaning();
+		});
+		$("#okButton").on('click', function(event) {
+			event.preventDefault();
+			let modal = bootstrap.Modal.getInstance(myModal);
+			let promise = window.createImageBitmap(document.getElementById("pictureWindow"));
+			modal.hide();
+			setTimeout(() => {location.href = "#bingoDiv"}, 500);
+			setTimeout(() => {setPicture(promise)}, 1000);
+			setTimeout(() => {checkBingo()}, 1200);
+		});
+		// シェア機能
+		$("#shareButton").on('click', function() {
+			html2canvas(document.querySelector("#bingoCard"), {
+				}).then(canvas => {
+    		canvas.toBlob(blob => {
+		      const imageFile = new File([blob], "image.png", { type: "image/png", });
+			  	navigator.share({
+				    text: "共有テスト",
+				    url: "",
+				    files: [imageFile],
+				  }).then(() => {
+				    console.log("共有成功.");
+				  }).catch((error) => {
+				    console.log(error);
+				  });
+		  	});
+    	});
+		});
+		// モードボタン取得
+		$("input[type=checkbox]").filter("#modeButton").change(function() {
+			if($(this).prop("checked")) {
+				mode = "detect";
+			} else {
+				mode = "classify";
+			}
+		});
+	</script>
+</body>
+

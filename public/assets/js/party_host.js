@@ -264,7 +264,8 @@ let safeareaFlag = false;
 function preload() {
   let params = getURLParams();
   partyConnect(
-    "wss://norihiro-p5p-server.herokuapp.com/",
+    // "wss://norihiro-p5p-server.herokuapp.com/",
+    "wss://web-production-81f2a.up.railway.app",
     "like_button", 
     params.room ?? "main"
   );

@@ -21,3 +21,7 @@ end
 get '/party/client' do
     erb :party_client
 end
+
+get '/party/client_lancers' do
+    erb :party_client_lancers, :layout => :layout_party_client
+end

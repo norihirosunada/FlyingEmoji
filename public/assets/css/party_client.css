@@ -1,0 +1,23 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+}
+
+.mobile-container {
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (min-width:576px) {
+  /*　for non mobile　*/
+
+  .mobile-container {
+    width: 450px;
+    height: 100%;
+  }
+}

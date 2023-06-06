@@ -390,7 +390,7 @@ function keyTyped() {
         bgColor = colors[colorNum];
     } else if (key === '2') {
         blendIndex = ++blendIndex % blendModes.length;
-    } else if (key == '4') {
+    } else if (key === '3') {
       showHand = !showHand
     }
     console.log(`Option Changed: tutorialFlag$=${tutorialFlag} color=${colors[colorNum]} blendMode=${blendIndex} showHand=${showHand}`)

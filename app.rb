@@ -23,5 +23,6 @@ get '/party/client' do
 end
 
 get '/party/client_lancers' do
+    @title = "Controller"
     erb :party_client_lancers, :layout => :layout_party_client
 end

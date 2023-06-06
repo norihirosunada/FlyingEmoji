@@ -290,7 +290,9 @@ function setup() {
   // params
   let params = getURLParams()
   tutorialFlag = params.tutorialFlag != "close"
-  bgColor = params.background
+  if(params.background) {
+    bgColor = params.background
+  }
 
   createCanvas(720, 500);
   videoImage = createGraphics(640, 360);

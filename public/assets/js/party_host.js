@@ -298,6 +298,11 @@ function setup() {
     partySubscribe("addScaleInOut", (emoji) => {
         insts.push(new ScaleInOut(emoji));
     });
+
+  // params
+  let params = getURLParams()
+  tutorialFlag = params.tutorialFlag != "close"
+  bgColor = params.background
 }
 
 function draw() {

@@ -1,4 +1,5 @@
 const isFlipped = true; // 左右反転をさせるかどうかのフラグ、反転をさせる
+let showHand = false
 let keypointsHand = []; // 手のキーポイントを保持する配列
 const videoElement = document.getElementsByClassName("input_video")[0];
 videoElement.style.display = "none";
@@ -60,16 +61,12 @@ class Emoji {
   isTouchedOrDestroy(){
     keypointsHand.forEach(hand => {
       hand.forEach(finger => {
+        ellipse(finger.x * displayWidth, finger.y * displayHeight, 10);
         if(sq(finger.x*displayWidth - this.x) < 100 && sq(finger.y*displayHeight - this.y) < 100) {
           this.destroy()
           return
         }
       })
-      let indexFinger = hand[8]
-      // console.log(`${this.x}, ${indexFinger.x*displayWidth} , ${sq(indexFinger.x*displayWidth - this.x)}`)
-      if(sq(indexFinger.x*displayWidth - this.x) < 100 && sq(indexFinger.y*displayHeight - this.y) < 100) {
-        this.destroy()
-      }
     });
   }
 }
@@ -384,6 +381,8 @@ function keyTyped() {
         bgColor = colors[colorNum];
     } else if (key === '2') {
         blendIndex = ++blendIndex % blendModes.length;
+    } else if (key == '4') {
+      showHand = !showHand
     }
 }
 

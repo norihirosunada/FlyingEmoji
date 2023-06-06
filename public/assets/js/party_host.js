@@ -1,10 +1,46 @@
-class Bouncy {
-  constructor(text) {
+const isFlipped = true; // 左右反転をさせるかどうかのフラグ、反転をさせる
+let keypointsHand = []; // 手のキーポイントを保持する配列
+const videoElement = document.getElementsByClassName("input_video")[0];
+videoElement.style.display = "none";
+
+function onHandsResults(results) {
+  keypointsHand = results.multiHandLandmarks;
+}
+
+const hands = new Hands({
+  locateFile: (file) => {
+    return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+  },
+});
+
+hands.setOptions({
+  selfieMode: isFlipped, //　表示反転のオプション
+  maxNumHands: 2, // 今回、簡単化のため検出数の最大1つまでに制限
+  modelComplexity: 1,
+  minDetectionConfidence: 0.5,
+  minTrackingConfidence: 0.5,
+});
+hands.onResults(onHandsResults);
+
+const camera = new Camera(videoElement, {
+  onFrame: async () => {
+    await hands.send({ image: videoElement });
+  },
+  width: 1280,
+  height: 720,
+});
+camera.start();
+let videoImage;
+
+class Emoji {
+  constructor(text){
     this.size = 20;
     this.life = 500;
     // no WEBGL
     this.x = random(width);
     this.y = random(height*3/4, height);
+    this.tmpX = this.x;
+    this.tmpY = this.y;
     // WEBGL
     // this.x = random(-width/2, width/2);
     // this.y = random(height/4, height/2);
@@ -12,7 +48,35 @@ class Bouncy {
     this.h = this.w;
     this.width = this.w;
     this.height = this.h;
+    this.angle = 0;
     this.text = text;
+  }
+  draw(){
+
+  }
+  destroy(){
+    this.life = 0;
+  }
+  isTouchedOrDestroy(){
+    keypointsHand.forEach(hand => {
+      hand.forEach(finger => {
+        if(sq(finger.x*displayWidth - this.x) < 100 && sq(finger.y*displayHeight - this.y) < 100) {
+          this.destroy()
+          return
+        }
+      })
+      let indexFinger = hand[8]
+      // console.log(`${this.x}, ${indexFinger.x*displayWidth} , ${sq(indexFinger.x*displayWidth - this.x)}`)
+      if(sq(indexFinger.x*displayWidth - this.x) < 100 && sq(indexFinger.y*displayHeight - this.y) < 100) {
+        this.destroy()
+      }
+    });
+  }
+}
+
+class Bouncy extends Emoji {
+  constructor(text) {
+    super(text)
     
     p5.tween.manager.addTween(this, 'tween1')
     .addMotions([
@@ -40,22 +104,9 @@ class Bouncy {
   }
 }
 
-class Circular {
+class Circular extends Emoji {
   constructor(text) {
-    this.size = 20;
-    this.life = 500;
-    // no WEBGL
-    this.x = random(width);
-    this.y = random(height*3/4, height);
-    // WEBGL
-    // this.x = random(-width/2, width/2);
-    // this.y = random(height/4, height/2);
-    this.w = random(20, 80);
-    this.h = this.w;
-    this.width = this.w;
-    this.height = this.h;
-    this.angle = 0;
-    this.text = text;
+    super(text)
     
     p5.tween.manager.addTween(this, 'tween1')
     .addMotions([
@@ -77,23 +128,9 @@ class Circular {
   }
 }
 
-class WaveUp {
+class WaveUp extends Emoji {
   constructor(text) {
-    this.size = 20;
-    this.life = 500;
-    // no WEBGL
-    this.x = random(width);
-    this.y = random(height*3/4, height);
-    // WEBGL
-    // this.x = random(-width/2, width/2);
-    // this.y = random(height/4, height/2);
-    this.w = random(20, 80);
-    this.h = this.w;
-    this.width = this.w;
-    this.height = this.h;
-    this.angle = 0;
-    this.text = text;
-    this.tmpY = this.y;
+    super(text)
     
     p5.tween.manager.addTween(this, 'tween1')
     .addMotions([
@@ -116,24 +153,9 @@ class WaveUp {
     }
 }
 
-class CircularUp {
+class CircularUp extends Emoji {
   constructor(text) {
-    this.size = 20;
-    this.life = 500;
-    // no WEBGL
-    this.x = random(width);
-    this.y = random(height*3/4, height);
-    // WEBGL
-    // this.x = random(-width/2, width/2);
-    // this.y = random(height/4, height/2);
-    this.tmpX = this.x;
-    this.tmpY = this.y;
-    this.w = random(20, 80);
-    this.h = this.w;
-    this.width = this.w;
-    this.height = this.h;
-    this.angle = 0;
-    this.text = text;
+    super(text)
     
     p5.tween.manager.addTween(this, 'tween1')
     .addMotions([
@@ -158,24 +180,9 @@ class CircularUp {
 }
 
 // WEBGL only
-class SideSpin {
+class SideSpin extends Emoji {
   constructor(text) {
-    this.size = 20;
-    this.life = 500;
-    // no WEBGL
-    this.x = random(width);
-    this.y = random(height*3/4, height);
-    // WEBGL
-    // this.x = random(-width/2, width/2);
-    // this.y = random(height/4, height/2);
-    this.tmpX = this.x;
-    this.tmpY = this.y;
-    this.w = random(20, 80);
-    this.h = this.w;
-    this.width = this.w;
-    this.height = this.h;
-    this.angle = 0;
-    this.text = text;
+    super(text)
     
     p5.tween.manager.addTween(this, 'tween1')
     .addMotions([
@@ -199,25 +206,10 @@ class SideSpin {
     }
 }
 
-class ScaleInOut {
+class ScaleInOut extends Emoji {
   constructor(text) {
-    this.size = 20;
-    this.life = 500;
-    // no WEBGL
-    this.x = random(width);
-    this.y = random(height*3/4, height);
-    // WEBGL
-    // this.x = random(-width/2, width/2);
-    // this.y = random(height/4, height/2);
-    // this.x = random(-width/2, width/2);
-    this.tmpX = this.x;
-    this.tmpY = this.y;
-    this.w = random(20, 80);
-    this.h = this.w;
-    this.width = this.w;
-    this.height = this.h;
-    this.angle = 0;
-    this.text = text;
+    super(text)
+    
     this.scale = 0.8;
     
     p5.tween.manager.addTween(this, 'tween1')
@@ -303,9 +295,16 @@ function setup() {
   let params = getURLParams()
   tutorialFlag = params.tutorialFlag != "close"
   bgColor = params.background
+
+  createCanvas(720, 500);
+  videoImage = createGraphics(640, 360);
 }
 
 function draw() {
+  // 表示領域とビデオのアスペクト比が異なるようにしたので、表示サイズを補正
+  displayWidth = width;
+  displayHeight = (width * videoImage.height) / videoImage.width;
+
     background(bgColor);
     push();
     
@@ -335,6 +334,7 @@ function draw() {
     
     insts.forEach((instance, index) => {
         instance.draw()
+        instance.isTouchedOrDestroy()
         if(instance.life < 0) {
             insts.splice(index, 1);
         }

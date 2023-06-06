@@ -15,7 +15,7 @@ get '/gofind' do
 end
 
 get '/party/host' do
-    erb '<script src="/assets/js/party_host.js"></script>'
+    erb '<script src="/assets/js/party_host.js"></script>', :layout => :layout_party_host
 end
 
 get '/party/client' do

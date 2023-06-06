@@ -61,7 +61,6 @@ class Emoji {
   isTouchedOrDestroy(){
     keypointsHand.forEach(hand => {
       hand.forEach(finger => {
-        ellipse(finger.x * displayWidth, finger.y * displayHeight, 10);
         if(sq(finger.x*displayWidth - this.x) < 100 && sq(finger.y*displayHeight - this.y) < 100) {
           this.destroy()
           return
@@ -298,10 +297,6 @@ function setup() {
 }
 
 function draw() {
-  // 表示領域とビデオのアスペクト比が異なるようにしたので、表示サイズを補正
-  displayWidth = width;
-  displayHeight = (width * videoImage.height) / videoImage.width;
-
     background(bgColor);
     push();
     
@@ -341,6 +336,21 @@ function draw() {
     }
     
     pop();
+
+    // 表示領域とビデオのアスペクト比が異なるようにしたので、表示サイズを補正
+    displayWidth = width;
+    displayHeight = (width * videoImage.height) / videoImage.width;
+    if(showHand) {
+      keypointsHand.forEach(hand => {
+        push();
+        noStroke();
+        fill(200, 150, 255);
+        hand.forEach(finger => {
+          ellipse(finger.x * displayWidth, finger.y * displayHeight, 10);
+        })
+        pop();
+      });
+    }
     
     // 操作説明表示
     if (tutorialFlag) {
@@ -375,7 +385,6 @@ function mousePressed(e) {
 function keyTyped() {
     if (key === '0') {
         tutorialFlag = !tutorialFlag;
-        console.log("0");
     } else if (key === '1') {
         colorNum = ++colorNum % colors.length;
         bgColor = colors[colorNum];
@@ -384,6 +393,7 @@ function keyTyped() {
     } else if (key == '4') {
       showHand = !showHand
     }
+    console.log(`Option Changed: tutorialFlag$=${tutorialFlag} color=${colors[colorNum]} blendMode=${blendIndex} showHand=${showHand}`)
 }
 
 function windowResized() {
